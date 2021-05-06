@@ -7,6 +7,7 @@
 @import './searchbar.css';
 @import'./deckView.css';
 @import './bookList.css';
+@import './carousel.css';
 
 :root {
   --primary: #2364AA;
@@ -84,12 +85,14 @@ p {
 }
 
 .cardsmall {
-  margin: 30px auto;
+  margin: 30px 40px;
   padding: 20px;
   max-width: 90%;
   border-radius: 20px;
   border: 3px solid var(--medium);
 }
+
+
 
 .navButton {
   font-size: 1rem;
@@ -126,7 +129,6 @@ p {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: rgb(254, 198, 1,.3);
-  /* border: 0.5px solid rgba(234, 115, 23.06, 0.2); */
   border-radius: .25rem;
 }
 

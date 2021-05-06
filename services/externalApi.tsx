@@ -26,15 +26,29 @@ export const discoverySearchingService = async (query: string, id: string):Promi
 export const getBookDetailsService = async (id: string): Promise<any> => {
   return fetch(`${bookById}${id}`)
     .then(res => res.json())
-    .then(data => ({
+    .then(data => {
+      let bookObject = {
         title: data.volumeInfo.title,
-        author: data.volumeInfo.authors[0],
         publishedDate: data.volumeInfo.publishedDate,
         description: data.volumeInfo.description,
         pageCount: data.volumeInfo.pageCount,
         averageRating: data.volumeInfo.averageRating,
         img: data.volumeInfo.imageLinks.thumbnail,
         link: data.volumeInfo.previewLink,
-      })
-    )
+        author: ''
+      }
+      if (data.volumeInfo.authors) {
+        let authors: string = '';
+        if (data.volumeInfo.authors.length === 1) {
+          bookObject.author = data.volumeInfo.authors[0]
+        } else {
+          data.volumeInfo.authors.forEach((author: string) => {
+            authors = authors + " & " + author
+          })
+          authors = authors.slice(2)
+          bookObject.author = authors;
+        }
+      }
+      return bookObject;
+    })
 }

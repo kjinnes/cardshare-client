@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import BookDetails from '../../components/bookDetails'
-import ListDecks from '../../components/listDecks'
+import BookDetails from '../../components/BookDetails'
+import ListDecks from '../../components/ListDecks'
 import { getBookDetailsService } from '../../services/externalApi'
 import { discoverBookService } from '../../services/internalApi'
+import IDeck from '../../interfaces/IDeck';
 
 const BookDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [book, setBook] = useState<any>(null);
-  const [decks, setDecks] = useState<any>(null);
+  const [decks, setDecks] = useState<IDeck[] | null>(null);
 
   useEffect(() => {
     const getBookDetails = async () => {
@@ -20,7 +21,6 @@ const BookDetailPage = () => {
 
         const deckResult = await discoverBookService(queryId);
         setDecks(deckResult);
-        console.log(deckResult)
       }
     }
     getBookDetails();
@@ -30,7 +30,8 @@ console.log(decks)
   return (book &&
     <div>
       <BookDetails book={book} />
-    {decks && <ListDecks decks={decks} setDecks={setDecks} type="byBook" />}
+      <div className="bookTitle center">Available Decks</div>
+      {decks && <ListDecks decks={decks} setDecks={setDecks} type="byBook" />}
     </div>
   )
 }

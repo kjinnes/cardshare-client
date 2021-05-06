@@ -1,10 +1,8 @@
-import React, { useState, Dispatch, SetStateAction, useContext, useEffect } from 'react';
-import { AuthContext, useAuth } from '../../contexts/AuthContext';
+import React, { useState, useContext, useEffect } from 'react';
+import { AuthContext  } from '../../contexts/AuthContext';
 import IDeck from '../../interfaces/IDeck'
-import ICard from '../../interfaces/ICard';
 import { useRouter } from 'next/router';
 import Container from '../../components/Container';
-import Card from '../../components/Card';
 import{ getSavedDeckByIdService } from '../../services/internalApi'
 
 function Deck () {

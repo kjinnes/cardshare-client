@@ -1,23 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
-
-import ViewDeck from '../components/viewDeck';
-import NewDeck from '../components/newDeck';
+import NewDeck from '../components/NewDeck';
 import { AuthContext } from '../contexts/AuthContext';
 import { getDeckByEmailService, deleteDeckByIdService } from '../services/internalApi'
 import IDeck from '../interfaces/IDeck'
 
 function Create() {
   const [deleteCount, setDeleteCount] = useState<number>(0);
-  const [deckList, setDeckList] = useState<any[]>([]);
+  const [deckList, setDeckList] = useState<IDeck[]>([]);
   const [clickedItem, setClickedItem] = useState<string>('');
-  const [selectedDeck, setSelectedDeck] = useState<IDeck | null>(null);
   const URL:string = "http://localhost:3001/myDecks";
   const context = useContext(AuthContext);
   if (!context) return null;
   const { currentUser, email } = context;
 
   useEffect(() => {
-    let emailArg = email|| currentUser.email;
+    let emailArg = email || currentUser.email;
     if (emailArg) {
       getDeckByEmailService(emailArg)
       .then(res => {
@@ -25,13 +22,6 @@ function Create() {
       })
     }
   }, [clickedItem]);
-
-  function handleDeleteClick(e: React.FormEvent): void {
-    const target = e.target as HTMLElement
-    let emailArg = email ||currentUser.email;
-    deleteDeckByIdService(emailArg, target.id)
-    setDeleteCount(deleteCount + 1);
-  }
 
     return (
         <NewDeck setClickedItem={setClickedItem} />

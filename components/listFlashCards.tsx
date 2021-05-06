@@ -1,11 +1,8 @@
 import React, { useState, Dispatch, SetStateAction, useContext } from 'react';
-import { useRouter } from 'next/router';
+
 import IDeck from '../interfaces/IDeck';
-import { AuthContext, useAuth } from '../contexts/AuthContext';
+
 import Container from './Container';
-import Deck from './Deck'
-import Card from'./Card'
-import { deleteSavedDeckByIdService, deleteDeckByIdService } from '../services/internalApi'
 
 type Props = {
     deck: IDeck,

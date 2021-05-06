@@ -1,18 +1,20 @@
 import React, { useEffect, useState, Dispatch, SetStateAction, useContext } from 'react';
 import { useRouter } from 'next/router'
-import Searchbar from './searchbar';
 import { AuthContext } from '../contexts/AuthContext';
 import { getUserService, newDeckService } from '../services/internalApi';
 import ICard from '../interfaces/ICard'
+import Searchbar from './Searchbar'
 import IDeck, { defaultDeck } from '../interfaces/IDeck'
+import { defaultCard } from '../interfaces/ICard'
 import FormControlElement from '../interfaces/FormControlElement'
-import Container from '../components/Container'
-import Card from '../components/Card'
+import Container from './Container'
+import Card from './Card'
 import { Carousel } from 'react-responsive-carousel'
 import Dropdown from 'react-dropdown'
 import { TextField } from '@material-ui/core'
 import 'react-dropdown/style.css';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+// import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 
 type Props = {
   setClickedItem: Dispatch<SetStateAction<string>>,
@@ -30,7 +32,9 @@ const NewDeck = ({ setClickedItem }: Props) => {
 
   const email = context?.currentUser.email;
   let username = context.username;
-  const [newDeck, setNewDeck] = useState<IDeck>(defaultDeck);
+  let newDefaultDeck = defaultDeck;
+  newDefaultDeck.cards = [{question: '', answer: ''}]
+  const [newDeck, setNewDeck] = useState<IDeck>(newDefaultDeck);
 
   const handleDeckChange = (e: React.ChangeEvent<FormControlElement>): void => {
     const { name, value } = e.target;
@@ -44,9 +48,9 @@ const NewDeck = ({ setClickedItem }: Props) => {
     })
   }
 
-  const handleCardChange = (e: any): void => {
-    const { name, value } = e.target;
-    const { id } = e.target.form;
+  const handleCardChange = (e: React.ChangeEvent<FormControlElement>): void => {
+    const { name, value } = e.target as FormControlElement;
+    const { id } = e.target.form as HTMLElement;
     let cardArray = [...newDeck.cards] as any[]
     cardArray[Number(id)][name] = value
     setNewDeck({
@@ -56,7 +60,6 @@ const NewDeck = ({ setClickedItem }: Props) => {
   }
 
   function handleRemoveClick(index: number): void {
-    console.log(index)
     let cardArray = [...newDeck.cards]
     cardArray.splice(index, 1)
     setNewDeck({
@@ -81,14 +84,18 @@ const NewDeck = ({ setClickedItem }: Props) => {
       creator: username
     }
     e.preventDefault();
-    newDeckService(email, newDeck)
-    setNewDeck(defaultDeck)
+    await newDeckService(email, submitDeck)
+    newDefaultDeck = defaultDeck;
+    newDefaultDeck.cards = [{question: '', answer: ''}]
+    await setNewDeck(newDefaultDeck)
+
     router.push('/mydecks')
+
   }
 
   return (
     <Container >
-      <Card option="strong">
+      <Card option="strong bg">
         <h3>New Deck</h3>
         <Searchbar setNewDeck={setNewDeck} newDeck={newDeck} /><br />
         <Dropdown
@@ -145,7 +152,7 @@ const NewDeck = ({ setClickedItem }: Props) => {
         >
           Add Card
         </button>
-        <div className="createDeckButton">
+
         <button
           className="saveButton"
           type="button"
@@ -160,8 +167,6 @@ const NewDeck = ({ setClickedItem }: Props) => {
         >
           Cancel
         </button>
-
-        </div>
         </div>
       </Card>
     </Container>

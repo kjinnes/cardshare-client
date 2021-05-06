@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { getDecksByGenreService } from '../services/internalApi';
 import Link from 'next/link'
-import IBook from '../interfaces/IBook'
-import IDeck from '../interfaces/IDeck'
-import Container from '../components/Container'
-import BookDetails from '../components/bookDetails'
-import Card from './Card'
 
 const ListBook = ({title}: Props) => {
   const [bookList, setBookList] = useState<any>(null)

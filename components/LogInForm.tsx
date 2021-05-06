@@ -45,7 +45,7 @@ function LogInForm({ setLogin }: Props) {
   }
 
   return (
-    <div className="back">
+    <div className="front">
     <Card>
         <h2>Log In</h2>
           <form className="form-control" data-testid="form">
@@ -83,7 +83,7 @@ function LogInForm({ setLogin }: Props) {
             Log In
           </button>
         </form>
-          <a onClick={() => setLogin(false)}>
+          <a onClick={() => setLogin(true)}>
             Don&apos;t have an account? Sign Up
           </a>
     </Card>

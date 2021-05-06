@@ -51,7 +51,6 @@ export const getMyDeckByIdService = (email:string, id:any) : Promise<any> => {
   return fetch(`${URL}/myDeck/${email}-${id}`)
   .then(res=>res.json())
   .then(data => {
-    console.log(data)
     return data
   })
 }

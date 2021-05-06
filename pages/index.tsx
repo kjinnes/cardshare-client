@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import SignupOrLoginForm from '../components/signupOrLoginForm';
 import Container from '../components/Container'
 import Card from '../components/Card'
 import SignUpForm from '../components/SignUpForm'
@@ -24,16 +23,12 @@ const Home: React.FC = () => {
           <br />
         </Card>
       </Container>
-      {/* <Container> */}
         <div className="flip-container">
           <div className={"card-container" + (login ? " flipped" : "")}>
-          <SignUpForm setLogin={setLogin}/>
           <LogInForm setLogin={setLogin} />
+          <SignUpForm setLogin={setLogin}/>
           </div>
         </div>
-
-
-      {/* </Container> */}
     </div>
   );
 }

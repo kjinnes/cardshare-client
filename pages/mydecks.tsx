@@ -2,7 +2,7 @@ import { AuthContext, useAuth } from '../contexts/AuthContext';
 import React, { useState, useEffect, useContext } from 'react';
 import { getDeckByEmailService } from '../services/internalApi';
 import IDeck from '../interfaces/IDeck';
-import ListDecks from '../components/listDecks';
+import ListDecks from '../components/ListDecks';
 import Container from '../components/Container';
 import { useRouter } from 'next/router';
 
@@ -12,7 +12,7 @@ const authorized = useContext(AuthContext);
     if (!authorized) return null;
     const { currentUser, email } = authorized;
     const router = useRouter();
-    const [myDecks, setMyDecks] = useState<IDeck[]>([]);
+    const [myDecks, setMyDecks] = useState<IDeck[] | null>(null);
 
     useEffect(() => {
         const sendEmail = email||currentUser.email
@@ -23,7 +23,7 @@ const authorized = useContext(AuthContext);
                 data && setMyDecks(data)
             });
         };
-    },[currentUser, email, router]);
+    },[]);
 
     const handleNewDeck = () => {
         router.push("/create")

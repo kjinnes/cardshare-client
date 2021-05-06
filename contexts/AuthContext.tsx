@@ -1,4 +1,4 @@
-import React, { Dispatch, useContext, useState, useEffect, SetStateAction } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { auth } from '../firebase';
 import { IAuthContext, ICurrent } from '../interfaces/IAuth'
 
@@ -28,12 +28,7 @@ export function AuthProvider({ children }: Props) {
   async function signOut() {
     return await auth.signOut();
   }
-  //User randomly will become null at some point while using the app,
-  //so they won't be able to access the page. If you go to /discover, it will work again,
-  //but if you create a new deck, the username will not be recognized so the deck will have a
-  //creator field as ''. This is why I wrote the if..else statement below, so the user can still
-  //view the pages
-
+  
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setLoading(false)

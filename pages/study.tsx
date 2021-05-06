@@ -2,7 +2,7 @@ import { AuthContext, useAuth } from '../contexts/AuthContext';
 import React, { useState, useEffect, useContext } from 'react';
 import { deleteSavedDeckByIdService, getSavedDecksByEmailService } from '../services/internalApi';
 import IDeck from '../interfaces/IDeck'
-import ListDecks from '../components/listDecks'
+import ListDecks from '../components/ListDecks'
 import Container from '../components/Container';
 import { useRouter } from 'next/router';
 
@@ -19,7 +19,7 @@ const authorized = useContext(AuthContext);
         if (sendEmail) {
             getSavedDecksByEmailService(sendEmail)
             .then((data) => {
-                data && setSavedDecks(data[0].savedDecks)
+                data.length && setSavedDecks(data[0].savedDecks)
             });
         };
     },[router, currentUser, email]);
